@@ -1,0 +1,107 @@
+> ()
+. #%app: missing procedure expression;
+ probably originally (), which is an illegal empty application in: (#%app)
+> (+)
+0
+> ()
+. #%app: missing procedure expression;
+ probably originally (), which is an illegal empty application in: (#%app)
+> '()
+()
+> '()
+()
+> (pair? '())
+#f
+> (1 . 2)
+. application: illegal use of `.' in: (1 . 2)
+> .
+. . read: illegal use of `.'
+> '(1 . 2)
+(1 . 2)
+> '(1 . (2 . (3 . '())))
+(1 2 3 quote ())
+> '(1 . (2 . (3 . ())))
+(1 2 3)
+> '(1 . (2 . (3 . 4)))
+(1 2 3 . 4)
+> (list? '(1 . (2 . (3 . 4))))
+#f
+> '(1 . (2 . (3 . ())))
+(1 2 3)
+> (list? '(1 . (2 . (3 . ()))))
+#t
+> (list 1 2 3)
+(1 2 3)
+> (list + 1 2)
+(#<procedure:+> 1 2)
+> '(+ 1 2)
+(+ 1 2)
+> (list list list list)
+(#<procedure:mlist> #<procedure:mlist> #<procedure:mlist>)
+> (list)
+()
+> (list 1)
+(1)
+> (car '())
+. . mcar: contract violation
+  expected: mpair?
+  given: ()
+> (cdr '())
+. . mcdr: contract violation
+  expected: mpair?
+  given: ()
+> (cons 1 2)
+(1 . 2)
+> (list 1 2)
+(1 2)
+> (define a 2)
+> (eq? a a)
+#t
+> (eq? 2 2)
+#t
+> (eq? 'a 'a)
+#t
+> (define b 2)
+> (eq? a b)
+#t
+> (eq? 'a 'b)
+#f
+> (define (f x) x)
+> (define (g x) x)
+> (f 2)
+2
+> (g 2)
+2
+> (eq? f g)
+#f
+> (eq? (cons 1 2) (cons 1 2))
+#f
+> (equal? (cons 1 2) (cons 1 2))
+#t
+> (define l (list 1 2 3))
+> (define l2 (list 1 2 3))
+> (eq? l l2)
+#f
+> (equal? l l2)
+#t
+> (length l)
+3
+> (append l l2 (list 4 5 6))
+(1 2 3 1 2 3 4 5 6)
+> (reverse l)
+(3 2 1)
+> (list-tail l 2)
+(3)
+> (cddr l)
+(3)
+> (list-ref l 2)
+3
+> (list-ref l -1)
+. . mcdr: contract violation
+  expected: mpair?
+  given: ()
+> (member 2 l)
+(2 3)
+> (member 4 l)
+#f
+> 
