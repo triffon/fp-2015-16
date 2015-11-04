@@ -76,6 +76,7 @@
 
 (define (repeated f n)
   (accumulate compose id 1 n (lambda (i) f) 1+))
+; (accumulate *       1  1 n (lambda (i) x) 1+))
 
 (define 10+ (repeated 1+ 10))
 (10+ 5)
@@ -86,3 +87,12 @@
   ((repeated (lambda (f) (derive f dx)) n) f))
 
 ((derive-n square 2 0.0001) 10)
+
+(define Y (lambda (f)
+            ((lambda (x) (f (lambda (n) ((x x) n))))
+             (lambda (x) (f (lambda (n) ((x x) n)))))))
+(define fact-body (lambda (f)
+                    (lambda (n) (if (= n 0) 1
+                                    (* n (f (- n 1)))))))
+(define fact (Y fact-body))
+(fact 5)
