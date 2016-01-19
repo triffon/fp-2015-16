@@ -1,7 +1,7 @@
 import Prelude hiding
   (elem, (++), (!!), null, length,
    init, last, take, drop, sum, const, ($),
-   map, filter, scanr, scanl)
+   map, filter, scanr, scanl, takeWhile)
 
 x :: (Int, String)
 x = (3, "abc")
@@ -48,8 +48,11 @@ length (_:xs) = 1 + length xs
 (_:xs) !! n = xs !! (n-1)
 
 elem :: Eq a => a -> [a] -> Bool
+{-
 elem _ []     = False
 elem x (y:ys) = x == y || elem x ys
+-}
+elem x = any (x==)
 
 type Int3 = [(Int,Int,Int)]
 pythagoreanTriple :: Int -> Int3
@@ -98,9 +101,16 @@ f $ x = f x
 map :: (a -> b) -> [a] -> [b]
 map f = foldr (\x -> (f x:)) []
 
+filter _ [] = []
+filter p (x:xs)
+ | p x       = x:filter p xs
+ | otherwise = filter p xs
+
+{-
 filter p = foldr
            (\x -> if p x then (x:) else id)
            []
+-}
 
 scanr :: (a -> b -> b) -> b -> [a] -> [b]
 
@@ -113,3 +123,10 @@ scanr op nv (x:xs) = x `op` r : rest
 scanr op nv = foldr
               (\x rest@(r:_) -> x `op` r : rest)
                 [nv]
+
+takeWhile p = foldr
+              (\x r -> if p x then x:r else [])
+              []
+
+sorted l = all (\(x,y) -> x <= y)
+           (zip l (tail l))
